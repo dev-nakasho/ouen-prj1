@@ -25,6 +25,14 @@ app.get("/api/users", async (request, response) => {
   response.end(JSON.stringify(data.rows));
 });
 
+// 個別取得
+app.get("/api/products/:id", async (request, response) => {
+  const data = await client.query(
+    `select * from products where id = ${request.params.id}`
+  );
+  response.end(JSON.stringify(data.rows));
+});
+
 // 登録
 app.post("/api/products", async (request, response) => {
   await client.query(
