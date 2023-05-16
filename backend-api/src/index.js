@@ -44,6 +44,20 @@ app.post("/api/products", async (request, response) => {
   response.end(JSON.stringify(data.rows));
 });
 
+// 更新
+app.put("/api/products/:id", async (request, response) => {
+  await client.query(
+    `update products set
+      price = ${request.body.price}
+      where id = ${request.params.id}
+    `
+  );
+  const data = await client.query(
+    `select * from products where id = ${request.params.id}`
+  );
+  response.end(JSON.stringify(data.rows));
+});
+
 // サーバー起動
 app.listen(port, host, () => {
   console.log(`server listen on http://${host}:${port}/`);
