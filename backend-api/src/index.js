@@ -58,6 +58,13 @@ app.put("/api/products/:id", async (request, response) => {
   response.end(JSON.stringify(data.rows));
 });
 
+// 削除
+app.delete("/api/products/:id", async (request, response) => {
+  await client.query(`delete from products where id = ${request.params.id}`);
+  const data = await client.query("select * from products order by id");
+  response.end(JSON.stringify(data.rows));
+});
+
 // サーバー起動
 app.listen(port, host, () => {
   console.log(`server listen on http://${host}:${port}/`);
