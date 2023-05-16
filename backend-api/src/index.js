@@ -15,12 +15,12 @@ const client = new Client({
 client.connect();
 
 const port = 3000;
-const host = "localhost";
+const host = "localhost"; // 127.0.0.1
 
 server.on("request", async (request, response) => {
-  // /api/usersに対するAPI定義
-  if (request.url === "/api/users") {
-    const data = await client.query("select * from users");
+  // /api/productsに対するAPI定義
+  if (request.url === "/api/products") {
+    const data = await client.query("select * from products");
     response.end(JSON.stringify(data.rows));
   } else {
     response.end("<p>this request is ohter.</p>");
