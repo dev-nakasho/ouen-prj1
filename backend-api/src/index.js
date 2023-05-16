@@ -1,7 +1,6 @@
-// index.js全文
-const http = require("http");
-// サーバ定義
-const server = http.createServer();
+// express初期化
+const express = require("express");
+const app = express();
 
 // DB接続
 const { Client } = require("pg");
@@ -15,19 +14,14 @@ const client = new Client({
 client.connect();
 
 const port = 3000;
-const host = "localhost";
+const host = "127.0.0.1";
 
-server.on("request", async (request, response) => {
-  // /api/usersに対するAPI定義
-  if (request.url === "/api/users") {
-    const data = await client.query("select * from users");
-    response.end(JSON.stringify(data.rows));
-  } else {
-    response.end("<p>this request is ohter.</p>");
-  }
+app.get("/api/users", async (request, response) => {
+  const data = await client.query("select * from users");
+  response.end(JSON.stringify(data.rows));
 });
 
 // サーバー起動
-server.listen(port, host, () => {
+app.listen(port, host, () => {
   console.log(`server listen on http://${host}:${port}/`);
 });
