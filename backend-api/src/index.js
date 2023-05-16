@@ -14,10 +14,11 @@ const client = new Client({
 client.connect();
 
 const port = 3000;
-const host = "127.0.0.1";
+const host = "localhost"; // 127.0.0.1
 
-app.get("/api/users", async (request, response) => {
-  const data = await client.query("select * from users");
+// products一覧取得
+app.get("/api/products", async (request, response) => {
+  const data = await client.query("select * from products");
   response.end(JSON.stringify(data.rows));
 });
 
