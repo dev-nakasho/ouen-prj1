@@ -14,10 +14,25 @@ const client = new Client({
 client.connect();
 
 const port = 3000;
-const host = "127.0.0.1";
+const host = "localhost"; // 127.0.0.1
 
+// リクエストボディからデータ取得を許可
+app.use(express.urlencoded({ extended: true }));
+
+// 一覧取得
 app.get("/api/users", async (request, response) => {
   const data = await client.query("select * from users");
+  response.end(JSON.stringify(data.rows));
+});
+
+// 登録
+app.post("/api/products", async (request, response) => {
+  await client.query(
+    `insert into products (name, price) values ('${request.body.name}', '${request.body.price}')`
+  );
+  const data = await client.query(
+    "select * from products where id = (select max(id) from products)"
+  );
   response.end(JSON.stringify(data.rows));
 });
 
