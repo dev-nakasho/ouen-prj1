@@ -2,6 +2,8 @@
 const express = require("express");
 const app = express();
 
+const session = require("express-session");
+
 const productRouter = require("./routes/products");
 const signupRouter = require("./routes/signup");
 const loginRouter = require("./routes/login");
@@ -11,6 +13,14 @@ const host = "localhost"; // 127.0.0.1
 
 // リクエストボディからデータ取得を許可
 app.use(express.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: "keyboard cat",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { httpOnly: true, secure: false },
+  })
+);
 
 app.use("/products", productRouter);
 app.use("/signup", signupRouter);
