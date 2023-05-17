@@ -4,6 +4,7 @@ const app = express();
 
 const productRouter = require("./routes/products");
 const signupRouter = require("./routes/signup");
+const loginRouter = require("./routes/login");
 
 const port = 3000;
 const host = "localhost"; // 127.0.0.1
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/products", productRouter);
 app.use("/signup", signupRouter);
+app.use("/login", loginRouter);
 
 // サーバー起動
 app.listen(port, host, () => {
