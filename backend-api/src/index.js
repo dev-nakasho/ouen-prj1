@@ -20,8 +20,8 @@ const host = "localhost"; // 127.0.0.1
 app.use(express.urlencoded({ extended: true }));
 
 // 一覧取得
-app.get("/api/users", async (request, response) => {
-  const data = await client.query("select * from users");
+app.get("/api/products", async (request, response) => {
+  const data = await client.query("select * from products");
   response.end(JSON.stringify(data.rows));
 });
 
