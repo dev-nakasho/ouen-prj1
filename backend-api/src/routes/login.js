@@ -23,7 +23,7 @@ router.post("/", async (request, response) => {
   const token = jwt.sign({ email }, "secret-key");
   request.session.regenerate(() => {
     request.session.token = token;
-    request.redirect(303, "/todos");
+    request.redirect(303, "/products"); // "/todos"
   });
 });
 
