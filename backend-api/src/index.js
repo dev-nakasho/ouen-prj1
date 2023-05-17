@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 
 const session = require("express-session");
+const jwt = require("jsonwebtoken");
 
 const productRouter = require("./routes/products");
 const signupRouter = require("./routes/signup");
@@ -22,7 +23,26 @@ app.use(
   })
 );
 
-app.use("/products", productRouter);
+app.use(
+  "/products",
+  (request, response, next) => {
+    const token = request.session.token;
+    if (!token) {
+      return response
+        .status(400)
+        .json({ message: "権限がないためログインしてください。" });
+    }
+    jwt.verify(token, "secret-key", (error) => {
+      if (error) {
+        return response
+          .status(400)
+          .json({ message: "ログイン情報に誤りがあります。" });
+      }
+    });
+    next();
+  },
+  productRouter
+);
 app.use("/signup", signupRouter);
 app.use("/login", loginRouter);
 
